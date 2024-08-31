@@ -8,8 +8,7 @@
 %                   b - length of semiminor axis
 %                   alpha - angle of orientation of semimajor axis]
 % size_im - size(im) where im is the gray image
-% fig_handle - the handle of the figure if specified, if fig_handle=[] then
-%                a new figure is created
+% color - color of the ellipses ('r' for red, 'g' for green, 'b' for blue)
 %
 % This function plots the ellipses
 %
@@ -19,31 +18,33 @@
 % http://www.ntu.edu.sg/
 
 
-function [] = drawEllipses(ellipses_para,im)
-if ~isempty(im)
-figure;
-%imshow(im); %show image
-imshow(im,'border','tight','initialmagnification','fit'); %show image
-size_im = size(im);
-hold on;
-else
-    hold on;
-end
-
-th=0:pi/180:2*pi;
-for i=1:size(ellipses_para,2)
-    Semi_major= ellipses_para(3,i);
-    Semi_minor= ellipses_para(4,i);
-    x0= ellipses_para(1,i);
-    y0= ellipses_para(2,i);
-    Phi= ellipses_para(5,i);
-    x=x0+Semi_major*cos(Phi)*cos(th)-Semi_minor*sin(Phi)*sin(th);
-    y=y0+Semi_minor*cos(Phi)*sin(th)+Semi_major*sin(Phi)*cos(th);   
+function [] = drawEllipses(ellipses_para, im, color)
+    if nargin < 3
+        color = 'r';  % 默认颜色为红色
+    end
     
-    plot(x,y,'r', 'LineWidth',2);
-end
-if ~isempty(im)
-axis on; set(gca,'XTick',[],'YTick',[]);axis ij;axis equal;axis([0 size_im(2) 0 size_im(1)]);
-end
-
+    if ~isempty(im)
+        hold on;
+    else
+        error('No image provided for drawEllipses function.');
+    end
+    
+    th = 0:pi/180:2*pi;
+    for i = 1:size(ellipses_para, 2)
+        Semi_major = ellipses_para(3, i);
+        Semi_minor = ellipses_para(4, i);
+        x0 = ellipses_para(1, i);
+        y0 = ellipses_para(2, i);
+        Phi = ellipses_para(5, i);
+        x = x0 + Semi_major * cos(Phi) * cos(th) - Semi_minor * sin(Phi) * sin(th);
+        y = y0 + Semi_minor * cos(Phi) * sin(th) + Semi_major * sin(Phi) * cos(th);   
+        
+        plot(x, y, color, 'LineWidth', 2);  % 使用传入的颜色参数
+    end
+    
+    axis on; 
+    set(gca, 'XTick', [], 'YTick', []);
+    axis ij; 
+    axis equal; 
+    axis([0 size(im, 2) 0 size(im, 1)]);
 end

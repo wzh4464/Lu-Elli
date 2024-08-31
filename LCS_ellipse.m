@@ -53,34 +53,3 @@ function []  = LCS_ellipse()
 
     disp('处理完成。检查当前目录中的 detected_ellipses.png 和 detected_ellipses_highres.png 文件以查看结果。');
 end
-
-function [] = drawEllipses(ellipses_para, im, color)
-    if nargin < 3
-        color = 'r';  % 默认颜色为红色
-    end
-    
-    if ~isempty(im)
-        hold on;
-    else
-        error('No image provided for drawEllipses function.');
-    end
-    
-    th = 0:pi/180:2*pi;
-    for i = 1:size(ellipses_para, 2)
-        Semi_major = ellipses_para(3, i);
-        Semi_minor = ellipses_para(4, i);
-        x0 = ellipses_para(1, i);
-        y0 = ellipses_para(2, i);
-        Phi = ellipses_para(5, i);
-        x = x0 + Semi_major * cos(Phi) * cos(th) - Semi_minor * sin(Phi) * sin(th);
-        y = y0 + Semi_minor * cos(Phi) * sin(th) + Semi_major * sin(Phi) * cos(th);   
-        
-        plot(x, y, color, 'LineWidth', 2);  % 使用传入的颜色参数
-    end
-    
-    axis on; 
-    set(gca, 'XTick', [], 'YTick', []);
-    axis ij; 
-    axis equal; 
-    axis([0 size(im, 2) 0 size(im, 1)]);
-end
