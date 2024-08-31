@@ -4946,7 +4946,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	 pairGroupList = getValidInitialEllipseSet(out,n,&groups,coverages,angles,distance_tolerance,specified_polarity);
 	 if(pairGroupList != NULL)
 	 {
-		printf("The number of initial ellipses：%i \n",pairGroupList->length);
+		printf("The number of initial ellipses: %i \n",pairGroupList->length);
 		generateEllipseCandidates(pairGroupList, distance_tolerance, candidates, &candidates_num);
 		printf("The number of ellipse candidates: %i \n",candidates_num);
 		
@@ -4960,7 +4960,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	 }
 	 else
 	 {
-		 printf("The number of initial ellipses：%i \n",0);
+		 printf("The number of initial ellipses: %i \n",0);
 		 double *candidates_out;
 		 plhs[0] = mxCreateDoubleMatrix(5,1,mxREAL);
 		 candidates_out = (double*)mxGetPr(plhs[0]);

@@ -37,17 +37,21 @@ function [ellipses, L, posi] = ellipseDetectionByArcSupportLSs(I, Tac, Tr, speci
     [y, x]=find(edge);%找到非0元素的行(y)、列(x)的索引
 %     ellipses = [];L=[];
 %     return;
-    [mylabels,labels, ellipses] = ellipseDetection(candidates ,[x, y], normals, unit_dis_tolerance, normal_tolerance, Tmin, angleCoverage, I);%后四个参数 0.5% 20° 0.6 180° 
+    [mylabels, labels, ellipses] = ellipseDetection(candidates, [x, y], normals, unit_dis_tolerance, normal_tolerance, Tmin, angleCoverage, I);
+        
     disp('-----------------------------------------------------------');
-    disp(['running time:',num2str(etime(clock,t0)),'s']);
-%     labels
-%     size(labels)
-%     size(y)
+    disp(['running time:', num2str(etime(clock, t0)), 's']);
+
     warning('on', 'all');
-     L = zeros(size(I, 1), size(I, 2));%创建与输入图像I一样大小的0矩阵L
-     L(sub2ind(size(L), y, x)) = mylabels;%labels,长度等于edge_pixel_n x 1,如果第i个边缘点用于识别了第j个圆，则该行标记为j,否则为0。大小 edge_pixel_n x 1;现在转化存到图像中，在图像中标记
-%     figure;imshow(L==2);%LLL
-%     imwrite((L==2),'D:\Graduate Design\画图\edge_result.jpg');
+    L = zeros(size(I, 1), size(I, 2));
+    L(sub2ind(size(L), y, x)) = mylabels;
+
+    % Draw ellipses on the original image
+    figure;
+    imshow(I);
+    hold on;
+    drawEllipses(ellipses', I);
+    title('Detected Ellipses');
 end
 %% ================================================================================================================================
 %函数1
@@ -604,4 +608,34 @@ dmin = min(d,[],2); %返回距离的平方
 % testim = zeros(300,300);
 % testim(sub2ind([300 300],uint16(yi+param(2)),uint16(xi+param(1)))) = 1;
 % figure;imshow(uint8(testim).*255);
+end
+
+function [] = drawEllipses(ellipses_para, im)
+    if ~isempty(im)
+        hold on;
+    else
+        figure;
+        hold on;
+    end
+    
+    th = 0:pi/180:2*pi;
+    for i = 1:size(ellipses_para, 2)
+        Semi_major = ellipses_para(3, i);
+        Semi_minor = ellipses_para(4, i);
+        x0 = ellipses_para(1, i);
+        y0 = ellipses_para(2, i);
+        Phi = ellipses_para(5, i);
+        x = x0 + Semi_major * cos(Phi) * cos(th) - Semi_minor * sin(Phi) * sin(th);
+        y = y0 + Semi_minor * cos(Phi) * sin(th) + Semi_major * sin(Phi) * cos(th);   
+        
+        plot(x, y, 'r', 'LineWidth', 2);
+    end
+    
+    if ~isempty(im)
+        axis on; 
+        set(gca, 'XTick', [], 'YTick', []);
+        axis ij; 
+        axis equal; 
+        axis([0 size(im, 2) 0 size(im, 1)]);
+    end
 end
