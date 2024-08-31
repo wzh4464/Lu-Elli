@@ -6,15 +6,15 @@ function [ellipses, L, posi] = ellipseDetectionByArcSupportLSs(I, Tac, Tr, speci
 %output:
 % ellipses: N by 5. (center_x, center_y, a, b, phi)
 % reference:
-% 1¡¢von Gioi R Grompone, Jeremie Jakubowicz, Jean-
-% Michel Morel, and Gregory Randall, ¡°Lsd: a fast line
-% segment detector with a false detection control.,¡± IEEE
+% 1ã€von Gioi R Grompone, Jeremie Jakubowicz, Jean-
+% Michel Morel, and Gregory Randall, â€œLsd: a fast line
+% segment detector with a false detection control.,â€ IEEE
 % transactions on pattern analysis and machine intelligence,
-% vol. 32, no. 4, pp. 722¨C732, 2010.
-    angleCoverage = Tac;%default 165¡ã
+% vol. 32, no. 4, pp. 722â€“732, 2010.
+    angleCoverage = Tac;%default 165Â°
     Tmin = Tr;%default 0.6 
-    unit_dis_tolerance = 2; %max([2, 0.005 * min([size(I, 1), size(I, 2)])]);%ÄÚµã¾àÀëµÄÈİÈÌ²îĞ¡ÓÚmax(2,0.5%*minsize)
-    normal_tolerance = pi/9; %·¨ÏßÈİÈÌ½Ç¶È20¡ã= pi/9
+    unit_dis_tolerance = 2; %max([2, 0.005 * min([size(I, 1), size(I, 2)])]);%å†…ç‚¹è·ç¦»çš„å®¹å¿å·®å°äºmax(2,0.5%*minsize)
+    normal_tolerance = pi/9; %æ³•çº¿å®¹å¿è§’åº¦20Â°= pi/9
     t0 = clock;
     if(size(I,3)>1)
         I = rgb2gray(I);
@@ -29,62 +29,62 @@ function [ellipses, L, posi] = ellipseDetectionByArcSupportLSs(I, Tac, Tr, speci
     t1 = clock;
     disp(['the time of generating ellipse candidates:',num2str(etime(t1,t0))]);
     candidates = candidates';%ellipse candidates matrix Transposition
-    if(candidates(1) == 0)%±íÊ¾Ã»ÓĞÕÒµ½ºòÑ¡Ô²
+    if(candidates(1) == 0)%è¡¨ç¤ºæ²¡æœ‰æ‰¾åˆ°å€™é€‰åœ†
         candidates =  zeros(0, 5);
     end
     posi = candidates;
     normals    = normals';%norams matrix transposition
-    [y, x]=find(edge);%ÕÒµ½·Ç0ÔªËØµÄĞĞ(y)¡¢ÁĞ(x)µÄË÷Òı
+    [y, x]=find(edge);%æ‰¾åˆ°é0å…ƒç´ çš„è¡Œ(y)ã€åˆ—(x)çš„ç´¢å¼•
 %     ellipses = [];L=[];
 %     return;
-    [mylabels,labels, ellipses] = ellipseDetection(candidates ,[x, y], normals, unit_dis_tolerance, normal_tolerance, Tmin, angleCoverage, I);%ºóËÄ¸ö²ÎÊı 0.5% 20¡ã 0.6 180¡ã 
+    [mylabels,labels, ellipses] = ellipseDetection(candidates ,[x, y], normals, unit_dis_tolerance, normal_tolerance, Tmin, angleCoverage, I);%åå››ä¸ªå‚æ•° 0.5% 20Â° 0.6 180Â° 
     disp('-----------------------------------------------------------');
     disp(['running time:',num2str(etime(clock,t0)),'s']);
 %     labels
 %     size(labels)
 %     size(y)
     warning('on', 'all');
-     L = zeros(size(I, 1), size(I, 2));%´´½¨ÓëÊäÈëÍ¼ÏñIÒ»Ñù´óĞ¡µÄ0¾ØÕóL
-     L(sub2ind(size(L), y, x)) = mylabels;%labels,³¤¶ÈµÈÓÚedge_pixel_n x 1,Èç¹ûµÚi¸ö±ßÔµµãÓÃÓÚÊ¶±ğÁËµÚj¸öÔ²£¬Ôò¸ÃĞĞ±ê¼ÇÎªj,·ñÔòÎª0¡£´óĞ¡ edge_pixel_n x 1;ÏÖÔÚ×ª»¯´æµ½Í¼ÏñÖĞ£¬ÔÚÍ¼ÏñÖĞ±ê¼Ç
+     L = zeros(size(I, 1), size(I, 2));%åˆ›å»ºä¸è¾“å…¥å›¾åƒIä¸€æ ·å¤§å°çš„0çŸ©é˜µL
+     L(sub2ind(size(L), y, x)) = mylabels;%labels,é•¿åº¦ç­‰äºedge_pixel_n x 1,å¦‚æœç¬¬iä¸ªè¾¹ç¼˜ç‚¹ç”¨äºè¯†åˆ«äº†ç¬¬jä¸ªåœ†ï¼Œåˆ™è¯¥è¡Œæ ‡è®°ä¸ºj,å¦åˆ™ä¸º0ã€‚å¤§å° edge_pixel_n x 1;ç°åœ¨è½¬åŒ–å­˜åˆ°å›¾åƒä¸­ï¼Œåœ¨å›¾åƒä¸­æ ‡è®°
 %     figure;imshow(L==2);%LLL
-%     imwrite((L==2),'D:\Graduate Design\»­Í¼\edge_result.jpg');
+%     imwrite((L==2),'D:\Graduate Design\ç”»å›¾\edge_result.jpg');
 end
 %% ================================================================================================================================
-%º¯Êı1
-%ÊäÈë
+%å‡½æ•°1
+%è¾“å…¥
 %candidates: ncandidates x 5
-%points:     ±ßÔµÏñËØµãµÄ×ø±ê(x,y),nx2,nÎª×Ü¹²µÄ±ßÔµµãÊı
-%lineLabels: ¶ÔÏàÓ¦µÄ×ø±ê(xi,yi)±ê¼Ç£¬¶ÔÓ¦¿¿½üÏàÓ¦µÄÏß¶Î£¬nx1,Î´±ê¼ÇÔòÎª0
-%lines:      Ïß¶Î²ÎÊı£¬-B,A,xmid,ymid£¬ÆäÖĞ(xmid,ymid)¶ÔÓ¦ÏàÓ¦µÄÏß¶ÎÖĞµã£¬mx4£¬mÎª×Ü¹²mÌõÏß¶Î
-%Êä³ö
-%labels£º    ³¤¶ÈµÈÓÚn x 1,Èç¹ûµÚi¸ö±ßÔµµãÓÃÓÚÊ¶±ğÁËµÚj¸öÔ²£¬Ôò¸ÃĞĞ±ê¼ÇÎªj,·ñÔòÎª0¡£´óĞ¡ n x 1
-%C£º   Ê¶±ğ³öÀ´µÄ¶Ô³ÆÖĞĞÄ£¬³¤°ëÖá£¬¶Ì°ëÖá£¬ºÍÇã½Ç£¬Ã¿Ò»ĞĞ¸ñÊ½ÊÇ(x,y,a,b,phi)
+%points:     è¾¹ç¼˜åƒç´ ç‚¹çš„åæ ‡(x,y),nx2,nä¸ºæ€»å…±çš„è¾¹ç¼˜ç‚¹æ•°
+%lineLabels: å¯¹ç›¸åº”çš„åæ ‡(xi,yi)æ ‡è®°ï¼Œå¯¹åº”é è¿‘ç›¸åº”çš„çº¿æ®µï¼Œnx1,æœªæ ‡è®°åˆ™ä¸º0
+%lines:      çº¿æ®µå‚æ•°ï¼Œ-B,A,xmid,ymidï¼Œå…¶ä¸­(xmid,ymid)å¯¹åº”ç›¸åº”çš„çº¿æ®µä¸­ç‚¹ï¼Œmx4ï¼Œmä¸ºæ€»å…±mæ¡çº¿æ®µ
+%è¾“å‡º
+%labelsï¼š    é•¿åº¦ç­‰äºn x 1,å¦‚æœç¬¬iä¸ªè¾¹ç¼˜ç‚¹ç”¨äºè¯†åˆ«äº†ç¬¬jä¸ªåœ†ï¼Œåˆ™è¯¥è¡Œæ ‡è®°ä¸ºj,å¦åˆ™ä¸º0ã€‚å¤§å° n x 1
+%Cï¼š   è¯†åˆ«å‡ºæ¥çš„å¯¹ç§°ä¸­å¿ƒï¼Œé•¿åŠè½´ï¼ŒçŸ­åŠè½´ï¼Œå’Œå€¾è§’ï¼Œæ¯ä¸€è¡Œæ ¼å¼æ˜¯(x,y,a,b,phi)
 function [mylabels,labels, ellipses] = ellipseDetection(candidates, points, normals, distance_tolerance, normal_tolerance, Tmin, angleCoverage, E)
     labels = zeros(size(points, 1), 1);
-    mylabels = zeros(size(points, 1), 1);%²âÊÔ
+    mylabels = zeros(size(points, 1), 1);%æµ‹è¯•
     ellipses = zeros(0, 5);
   
-    %% ¶ÔÓÚÏÔÖøĞÔºÜ´óµÄºòÑ¡ÍÖÔ²£¬ÇÒÂú×ã¼«ÆäÑÏ¸ñÒªÇó£¬Ö±½Ó¼ì²â³öÀ´£¬SE(salient ellipses)£»Í¬Ê±¶Ô~SE°´ÕÕgoodness½øĞĞpseudo order
-    goodness = zeros(size(candidates, 1), 1);%³õÊ¼»¯Ê±Îª0£¬µ±¼ì²âµ½ÏÔÖøÍÖÔ²Ê±Ö±½ÓÌáÈ¡£¬ÏàÓ¦Î»ÖÃµÄgoodness(i) = -1±ê¼Ç¡£
+    %% å¯¹äºæ˜¾è‘—æ€§å¾ˆå¤§çš„å€™é€‰æ¤­åœ†ï¼Œä¸”æ»¡è¶³æå…¶ä¸¥æ ¼è¦æ±‚ï¼Œç›´æ¥æ£€æµ‹å‡ºæ¥ï¼ŒSE(salient ellipses)ï¼›åŒæ—¶å¯¹~SEæŒ‰ç…§goodnessè¿›è¡Œpseudo order
+    goodness = zeros(size(candidates, 1), 1);%åˆå§‹åŒ–æ—¶ä¸º0ï¼Œå½“æ£€æµ‹åˆ°æ˜¾è‘—æ¤­åœ†æ—¶ç›´æ¥æå–ï¼Œç›¸åº”ä½ç½®çš„goodness(i) = -1æ ‡è®°ã€‚
     for i = 1 : size(candidates,1)
         %ellipse circumference is approximate pi * (1.5*sum(ellipseAxes)-sqrt(ellipseAxes(1)*ellipseAxes(2))
         ellipseCenter = candidates(i, 1 : 2);
         ellipseAxes   = candidates(i, 3:4);
-        tbins = min( [ 180, floor( pi * (1.5*sum(ellipseAxes)-sqrt(ellipseAxes(1)*ellipseAxes(2)) ) * Tmin ) ] );%Ñ¡·ÖÇø
+        tbins = min( [ 180, floor( pi * (1.5*sum(ellipseAxes)-sqrt(ellipseAxes(1)*ellipseAxes(2)) ) * Tmin ) ] );%é€‰åˆ†åŒº
         %ellipse_normals = computePointAngle(candidates(i,:),points);
-        %inliers = find( labels == 0 & dRosin_square(candidates(i,:),points) <= 1 );  % +-1¸öÏñËØÄÚÕÒÖ§³ÖÄÚµã
-        %¼ÓËÙ¼ÆËã£¬Ö»Ìô³öÍÖÔ²Íâ½Ó¾ØĞÎÄÚµÄ±ßÔµµã(ÍÖÔ²ÖĞµÄ³¤Öáa>b),s_dx´æ´¢µÄÊÇÏà¶ÔpointsµÄË÷Òı
+        %inliers = find( labels == 0 & dRosin_square(candidates(i,:),points) <= 1 );  % +-1ä¸ªåƒç´ å†…æ‰¾æ”¯æŒå†…ç‚¹
+        %åŠ é€Ÿè®¡ç®—ï¼ŒåªæŒ‘å‡ºæ¤­åœ†å¤–æ¥çŸ©å½¢å†…çš„è¾¹ç¼˜ç‚¹(æ¤­åœ†ä¸­çš„é•¿è½´a>b),s_dxå­˜å‚¨çš„æ˜¯ç›¸å¯¹pointsçš„ç´¢å¼•
         s_dx = find( points(:,1) >= (ellipseCenter(1)-ellipseAxes(1)-1) & points(:,1) <= (ellipseCenter(1)+ellipseAxes(1)+1) & points(:,2) >= (ellipseCenter(2)-ellipseAxes(1)-1) & points(:,2) <= (ellipseCenter(2)+ellipseAxes(1)+1));
         inliers = s_dx(dRosin_square(candidates(i,:),points(s_dx,:)) <= 1);
         ellipse_normals = computePointAngle(candidates(i,:),points(inliers,:));
-        p_dot_temp = dot(normals(inliers,:), ellipse_normals, 2); %¼ÓËÙºóellipse_normals(inliers,:)¸ÄÎª¼ÓËÙºóellipse_normals
-        p_cnt = sum(p_dot_temp>0);%ÎŞÄÎÖ®¾Ù£¬×öÒ»´Î¼«ĞÔÍ³¼Æ£¬µ±¸ÄÎªC´úÂëÊ±×¢ÒâÄâºÏÔ²Ê±ÄÚµã¼«ĞÔµÄÑ¡È¡ÎÊÌâ
+        p_dot_temp = dot(normals(inliers,:), ellipse_normals, 2); %åŠ é€Ÿåellipse_normals(inliers,:)æ”¹ä¸ºåŠ é€Ÿåellipse_normals
+        p_cnt = sum(p_dot_temp>0);%æ— å¥ˆä¹‹ä¸¾ï¼Œåšä¸€æ¬¡ææ€§ç»Ÿè®¡ï¼Œå½“æ”¹ä¸ºCä»£ç æ—¶æ³¨æ„æ‹Ÿåˆåœ†æ—¶å†…ç‚¹ææ€§çš„é€‰å–é—®é¢˜
         if(p_cnt > size(inliers,1)*0.5)
-            %¼«ĞÔÏàÒì,Ò²¾ÍÊÇÄÚºÚÍâ°×    
+            %ææ€§ç›¸å¼‚,ä¹Ÿå°±æ˜¯å†…é»‘å¤–ç™½    
             %ellipse_polarity = -1;
-            inliers = inliers(p_dot_temp>0 & p_dot_temp >= 0.923879532511287 );%cos(pi/8) = 0.923879532511287, ¼Ğ½ÇĞ¡ÓÚ22.5¡ã  
+            inliers = inliers(p_dot_temp>0 & p_dot_temp >= 0.923879532511287 );%cos(pi/8) = 0.923879532511287, å¤¹è§’å°äº22.5Â°  
         else
-            %¼«ĞÔÏàÍ¬,Ò²¾ÍÊÇÄÚ°×ÍâºÚ 
+            %ææ€§ç›¸åŒ,ä¹Ÿå°±æ˜¯å†…ç™½å¤–é»‘ 
             %ellipse_polarity = 1;
             inliers = inliers(p_dot_temp<0 & (-p_dot_temp) >= 0.923879532511287 );
         end
@@ -98,23 +98,23 @@ function [mylabels,labels, ellipses] = ellipseDetection(candidates, points, norm
             if (size(ellipses, 1) > 0)
                 s_flag = false;
                 for j = 1 : size(ellipses, 1)
-                    %ĞÂÊ¶±ğ³öÀ´µÄÔ²²»ÄÜ¹»ÓëÖ®Ç°Ê¶±ğ³öÀ´µÄÔ²ÖØ¸´£¬pi*0.1 = 0.314159265358979
+                    %æ–°è¯†åˆ«å‡ºæ¥çš„åœ†ä¸èƒ½å¤Ÿä¸ä¹‹å‰è¯†åˆ«å‡ºæ¥çš„åœ†é‡å¤ï¼Œpi*0.1 = 0.314159265358979
                     if (sqrt((ellipses(j, 1) - candidates(i, 1)) .^ 2 + (ellipses(j, 2) - candidates(i, 2)) .^ 2) <= distance_tolerance ...
                             && sqrt((ellipses(j, 3) - candidates(i, 3)) .^ 2 + (ellipses(j, 4) - candidates(i, 4)) .^ 2 ) <= distance_tolerance ...
-                            && abs( ellipses(j, 5) - candidates(i, 5) ) <= 0.314159265358979) %pi/10 = 18¡ã
+                            && abs( ellipses(j, 5) - candidates(i, 5) ) <= 0.314159265358979) %pi/10 = 18Â°
                         s_flag = true;
-                        labels(inliers) = j;%Èç¹ûÖØ¸´ÁË£¬¾Í°Ñ¸Ã±êÇ©×ªÒÆµ½Ö®Ç°µÄÔ²ÉÏÃæ¡£
-                        break;%´òÆÆÄÚÑ­»·£¬¼ÌĞøÏÂÒ»¸öÍâÑ­»·
+                        labels(inliers) = j;%å¦‚æœé‡å¤äº†ï¼Œå°±æŠŠè¯¥æ ‡ç­¾è½¬ç§»åˆ°ä¹‹å‰çš„åœ†ä¸Šé¢ã€‚
+                        break;%æ‰“ç ´å†…å¾ªç¯ï¼Œç»§ç»­ä¸‹ä¸€ä¸ªå¤–å¾ªç¯
                     end
                 end
-                if (~s_flag)%Èç¹û²»ÖØ¸´£¬Ôò¼ÓÈëµ½Ê¶±ğµÄÔ²(circles)ÖĞ
+                if (~s_flag)%å¦‚æœä¸é‡å¤ï¼Œåˆ™åŠ å…¥åˆ°è¯†åˆ«çš„åœ†(circles)ä¸­
                     labels(inliers) = size(ellipses, 1) + 1;
                     ellipses = [ellipses; candidates(i, :)];
                     %drawEllipses(candidates(i, :)',E);
                 end
             else
                 labels(inliers) = size(ellipses, 1) + 1;
-                ellipses = [ellipses; candidates(i, :)];%±ê¼Ç
+                ellipses = [ellipses; candidates(i, :)];%æ ‡è®°
                 %drawEllipses(candidates(i, :)',E);
             end
         else
@@ -128,42 +128,42 @@ function [mylabels,labels, ellipses] = ellipseDetection(candidates, points, norm
 
     %%
 %    t1 = clock;
-    angles = [300; 210; 150; 90];%½Ç¶È´Ó´óµ½Ğ¡ÑéÖ¤£¬ÁĞÏòÁ¿
-    angles(angles < angleCoverage) = [];%Ö»±£Áô´óÓÚangleCoverageµÄ²¿·Ö
-    if (isempty(angles) || angles(end) ~= angleCoverage)%Èç¹ûangelsÎª¿ÕÁË£¬»òÕßangles×îĞ¡µÄ~=angleCoverage£¬Ôò°ÑangleCoverage¼ÓÈë½øÀ´
+    angles = [300; 210; 150; 90];%è§’åº¦ä»å¤§åˆ°å°éªŒè¯ï¼Œåˆ—å‘é‡
+    angles(angles < angleCoverage) = [];%åªä¿ç•™å¤§äºangleCoverageçš„éƒ¨åˆ†
+    if (isempty(angles) || angles(end) ~= angleCoverage)%å¦‚æœangelsä¸ºç©ºäº†ï¼Œæˆ–è€…anglesæœ€å°çš„~=angleCoverageï¼Œåˆ™æŠŠangleCoverageåŠ å…¥è¿›æ¥
         angles = [angles; angleCoverage];
     end
-%    disp('¿ªÊ¼¶ÔÒ»×éÔ²µÄÍêÕû½Ç¶È½øĞĞÑéÖ¤£¬¿ªÊ¼angleLoop£¬ÔÚÃ¿´ÎÑ­»·ÀïÉèÖÃÒ»¸öangleCoverage£¬¶ÔºòÑ¡Ô²½øĞĞÑéÖ¤£¬°üÀ¨Ô²ÖÜÉÏµÄÄÚµãµÄÁ¬Í¨ĞÔ·ÖÎö£¬ÊıÁ¿·ÖÎö£¬ÍêÕû¶È·ÖÎö£¬´Ó¶øÕÒµ½ÓĞĞ§Ô²£¬Í¬Ê±ÌŞ³ıÎŞĞ§Ô²');
+%    disp('å¼€å§‹å¯¹ä¸€ç»„åœ†çš„å®Œæ•´è§’åº¦è¿›è¡ŒéªŒè¯ï¼Œå¼€å§‹angleLoopï¼Œåœ¨æ¯æ¬¡å¾ªç¯é‡Œè®¾ç½®ä¸€ä¸ªangleCoverageï¼Œå¯¹å€™é€‰åœ†è¿›è¡ŒéªŒè¯ï¼ŒåŒ…æ‹¬åœ†å‘¨ä¸Šçš„å†…ç‚¹çš„è¿é€šæ€§åˆ†æï¼Œæ•°é‡åˆ†æï¼Œå®Œæ•´åº¦åˆ†æï¼Œä»è€Œæ‰¾åˆ°æœ‰æ•ˆåœ†ï¼ŒåŒæ—¶å‰”é™¤æ— æ•ˆåœ†');
     for angleLoop = 1 : length(angles)
-        idx = find(labels == 0);%labels´óĞ¡Îª±ßÔµÏñËØ×ÜÊıedge_nx1£¬³õÊ¼»¯Ê±labelsÈ«Îª0£¬ÕÒµ½labelsÖĞµÈÓÚ0µÄË÷Òı
-        if (length(idx) < 2 * pi * (6 * distance_tolerance) * Tmin)%µ±idxÊıÁ¿Ğ¡ÓÚÒ»¶¨ÖµÊ±
+        idx = find(labels == 0);%labelså¤§å°ä¸ºè¾¹ç¼˜åƒç´ æ€»æ•°edge_nx1ï¼Œåˆå§‹åŒ–æ—¶labelså…¨ä¸º0ï¼Œæ‰¾åˆ°labelsä¸­ç­‰äº0çš„ç´¢å¼•
+        if (length(idx) < 2 * pi * (6 * distance_tolerance) * Tmin)%å½“idxæ•°é‡å°äºä¸€å®šå€¼æ—¶
             break;
         end
         [L2, L, C, validCandidates] = subEllipseDetection( candidates, points(idx, :), normals(idx, :), distance_tolerance, normal_tolerance, Tmin, angles(angleLoop), E, angleLoop);
-        candidates = candidates(validCandidates, :);%¸ù¾İlogicalÏòÁ¿validCandidates½øĞĞÌŞ³ıµô²»³ÉÁ¢µÄÔ²£¬Ê£ÏÂµÄÔ²¼ÌĞøÓÃÓÚÏÂÒ»¸öangleloopÑéÖ¤
+        candidates = candidates(validCandidates, :);%æ ¹æ®logicalå‘é‡validCandidatesè¿›è¡Œå‰”é™¤æ‰ä¸æˆç«‹çš„åœ†ï¼Œå‰©ä¸‹çš„åœ†ç»§ç»­ç”¨äºä¸‹ä¸€ä¸ªangleloopéªŒè¯
       % size(candidates)
       % disp(angleLoop)
         if (size(C, 1) > 0)
             for i = 1 : size(C, 1)
                 flag = false;
                 for j = 1 : size(ellipses, 1)
-                    %ĞÂÊ¶±ğ³öÀ´µÄÔ²²»ÄÜ¹»ÓëÖ®Ç°Ê¶±ğ³öÀ´µÄÔ²ÖØ¸´£¬pi*0.1 = 0.314159265358979
+                    %æ–°è¯†åˆ«å‡ºæ¥çš„åœ†ä¸èƒ½å¤Ÿä¸ä¹‹å‰è¯†åˆ«å‡ºæ¥çš„åœ†é‡å¤ï¼Œpi*0.1 = 0.314159265358979
                     if (sqrt((C(i, 1) - ellipses(j, 1)) .^ 2 + (C(i, 2) - ellipses(j, 2)) .^ 2) <= distance_tolerance ...
                         && sqrt((C(i, 3) - ellipses(j, 3)) .^ 2 + (C(i, 4) - ellipses(j, 4)) .^ 2) <= distance_tolerance ...
-                        && abs(C(i, 5) - ellipses(j, 5)) <= 0.314159265358979) %pi/10 = 18¡ã
+                        && abs(C(i, 5) - ellipses(j, 5)) <= 0.314159265358979) %pi/10 = 18Â°
                         flag = true;
-                        labels(idx(L == i)) = j;%Èç¹ûÖØ¸´ÁË£¬¾Í°Ñ¸Ã±êÇ©×ªÒÆµ½Ö®Ç°µÄÔ²ÉÏÃæ¡£×¢Òâ×¢Òâ£ºidx´æµÄÊÇË÷Òı£¬labelÊÇ±ê¼Ç¸Ã±ßÔµµãÓÃÔÚÁËµÚj¸öÔ²ÉÏ£¬idx¡¢labels¶¼ÊÇÒ»Î¬ÀàÏòÁ¿(n x 1)£¬labelsÓë±ßÔµµãpoints(n x 2)×ÜÊıÒ»Ñù,¶øidxÔò²»Ò»¶¨
+                        labels(idx(L == i)) = j;%å¦‚æœé‡å¤äº†ï¼Œå°±æŠŠè¯¥æ ‡ç­¾è½¬ç§»åˆ°ä¹‹å‰çš„åœ†ä¸Šé¢ã€‚æ³¨æ„æ³¨æ„ï¼šidxå­˜çš„æ˜¯ç´¢å¼•ï¼Œlabelæ˜¯æ ‡è®°è¯¥è¾¹ç¼˜ç‚¹ç”¨åœ¨äº†ç¬¬jä¸ªåœ†ä¸Šï¼Œidxã€labelséƒ½æ˜¯ä¸€ç»´ç±»å‘é‡(n x 1)ï¼Œlabelsä¸è¾¹ç¼˜ç‚¹points(n x 2)æ€»æ•°ä¸€æ ·,è€Œidxåˆ™ä¸ä¸€å®š
                         %==================================================
                         mylabels(idx(L2 == i)) = j;
                         %==================================================
-                        break;%´òÆÆÄÚÑ­»·£¬¼ÌĞøÏÂÒ»¸öÍâÑ­»·
+                        break;%æ‰“ç ´å†…å¾ªç¯ï¼Œç»§ç»­ä¸‹ä¸€ä¸ªå¤–å¾ªç¯
                     end 
                 end
-                if (~flag)%Èç¹û²»ÖØ¸´£¬Ôò¼ÓÈëµ½Ê¶±ğµÄÔ²(circles)ÖĞ
+                if (~flag)%å¦‚æœä¸é‡å¤ï¼Œåˆ™åŠ å…¥åˆ°è¯†åˆ«çš„åœ†(circles)ä¸­
                     labels(idx(L == i)) = size(ellipses, 1) + 1;
                     %=================================================================
-                    %%ÏÔÊ¾ÄâºÏ³öÔ²Ê±ËùÓÃµÄÄÚµã  my code 
-                    mylabels(idx(L2 == i)) = size(ellipses, 1) + 1;%²âÊÔ
+                    %%æ˜¾ç¤ºæ‹Ÿåˆå‡ºåœ†æ—¶æ‰€ç”¨çš„å†…ç‚¹  my code 
+                    mylabels(idx(L2 == i)) = size(ellipses, 1) + 1;%æµ‹è¯•
                     %=================================================================
                     ellipses = [ellipses; C(i, :)];
                 end
@@ -171,47 +171,47 @@ function [mylabels,labels, ellipses] = ellipseDetection(candidates, points, norm
         end
     end
 %    t2 = clock;
-%    disp(['¾ÛÀàºÍÑéÖ¤Ê±¼ä£º',num2str(etime(t2,t1))]);
+%    disp(['èšç±»å’ŒéªŒè¯æ—¶é—´ï¼š',num2str(etime(t2,t1))]);
 end
 
 
 %% ================================================================================================================================
-%º¯Êı2
-%ÊäÈë
-%list£º      ¾ÛÀàºòÑ¡µÄÔ²ĞÄºÍ°ë¾¶×éºÏ£¬(x,y,a,b,r)£¬´óĞ¡ candidate_n x 5.
-%points:     ±ßÔµÏñËØµãµÄ×ø±ê(x,y),nx2,nÎª×Ü¹²µÄ±ßÔµµãÊı
-%normals:    Ã¿Ò»¸ö±ßÔµµã¶ÔÓ¦µÄÌİ¶ÈÏòÁ¿£¬normals´óĞ¡Îªnx2£¬¸ñÊ½Îª(xi,yi)
+%å‡½æ•°2
+%è¾“å…¥
+%listï¼š      èšç±»å€™é€‰çš„åœ†å¿ƒå’ŒåŠå¾„ç»„åˆï¼Œ(x,y,a,b,r)ï¼Œå¤§å° candidate_n x 5.
+%points:     è¾¹ç¼˜åƒç´ ç‚¹çš„åæ ‡(x,y),nx2,nä¸ºæ€»å…±çš„è¾¹ç¼˜ç‚¹æ•°
+%normals:    æ¯ä¸€ä¸ªè¾¹ç¼˜ç‚¹å¯¹åº”çš„æ¢¯åº¦å‘é‡ï¼Œnormalså¤§å°ä¸ºnx2ï¼Œæ ¼å¼ä¸º(xi,yi)
  
-%Êä³ö
-%labels£º    Èç¹ûµÚi¸ö±ßÔµµãÓÃÓÚ¼ì²âµ½ÁËµÚj¸öÔ²£¬ÔòlabelsµÚiĞĞ¸³ÖµÎªj£¬·ñÔòÎª0.³¤¶ÈÓëpointsÒ»ÖÂ£¬n x 1
-%circles:    ´Ë´Î¼ì²âµ½µÄÔ²,(x,y,z),Èô¼ì²âµ½detectnum¸ö£¬Ôò´óĞ¡Îªdetectnum x 3
-%validCandidates: listµÄºòÑ¡Ô²ÖĞ£¬Èç¹ûµÚi¸öÔ²±»¼ì²âµ½ÁË»òÕß²»Âú×ãÔ²Ìõ¼ş(Ô²ÖÜÉÏÄÚµãÊıÁ¿²»×ã)£¬ÔòµÚi¸öÎ»ÖÃÎªfalse(³õÊ¼»¯Ê±Îªtrue)£¬ÕâÑùÔÚÏÂÒ»¸öangleloopÂÖ´ÎÑéÖ¤Ê±¿ÉÒÔÌŞ³ıµô£¬²»±ØÒªÖØ¸´ÑéÖ¤¡£
-%                 validCandidatesµÄ´óĞ¡Îª candidate_n x 1.
+%è¾“å‡º
+%labelsï¼š    å¦‚æœç¬¬iä¸ªè¾¹ç¼˜ç‚¹ç”¨äºæ£€æµ‹åˆ°äº†ç¬¬jä¸ªåœ†ï¼Œåˆ™labelsç¬¬iè¡Œèµ‹å€¼ä¸ºjï¼Œå¦åˆ™ä¸º0.é•¿åº¦ä¸pointsä¸€è‡´ï¼Œn x 1
+%circles:    æ­¤æ¬¡æ£€æµ‹åˆ°çš„åœ†,(x,y,z),è‹¥æ£€æµ‹åˆ°detectnumä¸ªï¼Œåˆ™å¤§å°ä¸ºdetectnum x 3
+%validCandidates: listçš„å€™é€‰åœ†ä¸­ï¼Œå¦‚æœç¬¬iä¸ªåœ†è¢«æ£€æµ‹åˆ°äº†æˆ–è€…ä¸æ»¡è¶³åœ†æ¡ä»¶(åœ†å‘¨ä¸Šå†…ç‚¹æ•°é‡ä¸è¶³)ï¼Œåˆ™ç¬¬iä¸ªä½ç½®ä¸ºfalse(åˆå§‹åŒ–æ—¶ä¸ºtrue)ï¼Œè¿™æ ·åœ¨ä¸‹ä¸€ä¸ªangleloopè½®æ¬¡éªŒè¯æ—¶å¯ä»¥å‰”é™¤æ‰ï¼Œä¸å¿…è¦é‡å¤éªŒè¯ã€‚
+%                 validCandidatesçš„å¤§å°ä¸º candidate_n x 1.
 function [mylabels,labels, ellipses, validCandidates] = subEllipseDetection( list, points, normals, distance_tolerance, normal_tolerance, Tmin, angleCoverage,E,angleLoop)
-    labels = zeros(size(points, 1), 1);%±ßÔµÏñËØµãµÄ×ÜÊıÁ¿n,n x 1
-    mylabels = zeros(size(points, 1), 1);%²âÊÔ
+    labels = zeros(size(points, 1), 1);%è¾¹ç¼˜åƒç´ ç‚¹çš„æ€»æ•°é‡n,n x 1
+    mylabels = zeros(size(points, 1), 1);%æµ‹è¯•
     ellipses = zeros(0, 5);
-    ellipse_polarity = 0; %ÍÖÔ²¼«ĞÔ
+    ellipse_polarity = 0; %æ¤­åœ†ææ€§
     max_dis = max(points) - min(points);
-    maxSemiMajor = max(max_dis);%×î´óµÄ¿ÉÄÜ°ë¾¶(´Ë´¦¿É¸ÄÎª/2)
+    maxSemiMajor = max(max_dis);%æœ€å¤§çš„å¯èƒ½åŠå¾„(æ­¤å¤„å¯æ”¹ä¸º/2)
     maxSemiMinor = min(max_dis);
     distance_tolerance_square = distance_tolerance*distance_tolerance;
-    validCandidates = true(size(list, 1), 1);%logicalÏòÁ¿£¬´óĞ¡ candidate_n x 1
-    convergence = list;%ºòÑ¡ÍÖÔ²¸±±¾
+    validCandidates = true(size(list, 1), 1);%logicalå‘é‡ï¼Œå¤§å° candidate_n x 1
+    convergence = list;%å€™é€‰æ¤­åœ†å‰¯æœ¬
     for i = 1 : size(list, 1)
         ellipseCenter = list(i, 1 : 2);
         ellipseAxes = list(i, 3:4);
         ellipsePhi  = list(i,5);
         %ellipse circumference is approximate pi * (1.5*sum(ellipseAxes)-sqrt(ellipseAxes(1)*ellipseAxes(2))
-        tbins = min( [ 180, floor( pi * (1.5*sum(ellipseAxes)-sqrt(ellipseAxes(1)*ellipseAxes(2)) ) * Tmin ) ] );%Ñ¡·ÖÇø
+        tbins = min( [ 180, floor( pi * (1.5*sum(ellipseAxes)-sqrt(ellipseAxes(1)*ellipseAxes(2)) ) * Tmin ) ] );%é€‰åˆ†åŒº
        
-        %ÕÒµ½Õâ¸öÔ²list(i,:)µÄÔ²ÖÜÉÏµÄÄÚµã,findÀïÃæÅĞ¶ÏµÄ½á¹ûÎªlogicalÏòÁ¿£¬ÊÇÄÚµãÔò¶ÔÓ¦ÔÚpointsÖĞµÄĞĞ¶ÔÓ¦Î»ÖÃÎª1£¬·ñÔòÎª0£¬´óĞ¡Îªn x 1
-        %Í¨¹ıfindÕÒ³ö·Ç0ÔªËØµÄË÷Òıºó£¬inliersÔòÊÇ±£´æ×ÅÏàÓ¦ÎªÄÚµãµÄĞĞµÄÖµ£¬³¤¶È inlier_n x 1
+        %æ‰¾åˆ°è¿™ä¸ªåœ†list(i,:)çš„åœ†å‘¨ä¸Šçš„å†…ç‚¹,findé‡Œé¢åˆ¤æ–­çš„ç»“æœä¸ºlogicalå‘é‡ï¼Œæ˜¯å†…ç‚¹åˆ™å¯¹åº”åœ¨pointsä¸­çš„è¡Œå¯¹åº”ä½ç½®ä¸º1ï¼Œå¦åˆ™ä¸º0ï¼Œå¤§å°ä¸ºn x 1
+        %é€šè¿‡findæ‰¾å‡ºé0å…ƒç´ çš„ç´¢å¼•åï¼Œinliersåˆ™æ˜¯ä¿å­˜ç€ç›¸åº”ä¸ºå†…ç‚¹çš„è¡Œçš„å€¼ï¼Œé•¿åº¦ inlier_n x 1
        
-        %ÏÂĞĞ´úÂëÓĞÎÊÌâ£¬Î´½øĞĞ¼«ĞÔ·ÖÎö£¬µ¼ÖÂÁÚ½üµÄ2 * distance_toleranceµÄ¼«ĞÔÏà·´µÄ´íÎóÄÚµã±»ÄÉÈë£¬´Ó¶øÄâºÏ´íÎó.
+        %ä¸‹è¡Œä»£ç æœ‰é—®é¢˜ï¼Œæœªè¿›è¡Œææ€§åˆ†æï¼Œå¯¼è‡´é‚»è¿‘çš„2 * distance_toleranceçš„ææ€§ç›¸åçš„é”™è¯¯å†…ç‚¹è¢«çº³å…¥ï¼Œä»è€Œæ‹Ÿåˆé”™è¯¯.
 %           inliers = find(labels == 0 & abs(sqrt((points(:, 1) - circleCenter(1)) .^ 2 + (points(:, 2) - circleCenter(2)) .^ 2) - circleRadius) <= 2 * distance_tolerance & radtodeg(real(acos(abs(dot(normals, circle_normals, 2))))) <= normal_tolerance);
         %===============================================================================================================================================================
-        %ÉÏĞĞ´úÂë¸ÄÎªÈçÏÂ´úÂë,my code
+        %ä¸Šè¡Œä»£ç æ”¹ä¸ºå¦‚ä¸‹ä»£ç ,my code
         
 %         size(labels)
 %         size(dRosin_square(list(i,:),points) )
@@ -219,13 +219,13 @@ function [mylabels,labels, ellipses, validCandidates] = subEllipseDetection( lis
 %           if( i == 11 && angleCoverage == 165)
 %          drawEllipses(list(i,:)',E);
 %           end
-        %´Ë´¦·Ç³£ÖØÒª£¬¾àÀëÓ¦¸ÃÒª±ÈÖ®Ç°µÄ¸üÏÁĞ¡µÄ·¶Î§Ñ°ÕÒÄÚµã
+        %æ­¤å¤„éå¸¸é‡è¦ï¼Œè·ç¦»åº”è¯¥è¦æ¯”ä¹‹å‰çš„æ›´ç‹­å°çš„èŒƒå›´å¯»æ‰¾å†…ç‚¹
         %ellipse_normals = computePointAngle(list(i,:),points);
         %inliers = find(labels == 0 & (dRosin_square(list(i,:),points) <= distance_tolerance_square) );  % 2.25 * distance_tolerance_square , 4*distance_tolerance_square.
-        %¼ÓËÙ¼ÆËã£¬Ö»Ìô³öÍÖÔ²Íâ½Ó¾ØĞÎÄÚµÄ±ßÔµµã(ÍÖÔ²ÖĞµÄ³¤Öáa>b),i_dx´æ´¢µÄÊÇÏà¶ÔÔÚpointsÖĞµÄË÷Òı.
+        %åŠ é€Ÿè®¡ç®—ï¼ŒåªæŒ‘å‡ºæ¤­åœ†å¤–æ¥çŸ©å½¢å†…çš„è¾¹ç¼˜ç‚¹(æ¤­åœ†ä¸­çš„é•¿è½´a>b),i_dxå­˜å‚¨çš„æ˜¯ç›¸å¯¹åœ¨pointsä¸­çš„ç´¢å¼•.
         i_dx = find( points(:,1) >= (ellipseCenter(1)-ellipseAxes(1)-distance_tolerance) & points(:,1) <= (ellipseCenter(1)+ellipseAxes(1)+distance_tolerance) & points(:,2) >= (ellipseCenter(2)-ellipseAxes(1)-distance_tolerance) & points(:,2) <= (ellipseCenter(2)+ellipseAxes(1)+distance_tolerance));
         inliers = i_dx(labels(i_dx) == 0 & (dRosin_square(list(i,:),points(i_dx,:)) <= distance_tolerance_square) );
-        ellipse_normals = computePointAngle(list(i,:),points(inliers,:));%ellipse_normals³¤¶ÈÓëinliers³¤¶ÈÒ»ÖÂ
+        ellipse_normals = computePointAngle(list(i,:),points(inliers,:));%ellipse_normalsé•¿åº¦ä¸inliersé•¿åº¦ä¸€è‡´
         
 %         if( i == 11 && angleCoverage == 165)
 %         testim = zeros(size(E,1),size(E,2));
@@ -234,13 +234,13 @@ function [mylabels,labels, ellipses, validCandidates] = subEllipseDetection( lis
 %         end 
         
         p_dot_temp = dot(normals(inliers,:), ellipse_normals, 2);
-        p_cnt = sum(p_dot_temp>0);%ÎŞÄÎÖ®¾Ù£¬×öÒ»´Î¼«ĞÔÍ³¼Æ£¬µ±¸ÄÎªC´úÂëÊ±×¢ÒâÄâºÏÔ²Ê±ÄÚµã¼«ĞÔµÄÑ¡È¡ÎÊÌâ
+        p_cnt = sum(p_dot_temp>0);%æ— å¥ˆä¹‹ä¸¾ï¼Œåšä¸€æ¬¡ææ€§ç»Ÿè®¡ï¼Œå½“æ”¹ä¸ºCä»£ç æ—¶æ³¨æ„æ‹Ÿåˆåœ†æ—¶å†…ç‚¹ææ€§çš„é€‰å–é—®é¢˜
         if(p_cnt > size(inliers,1)*0.5)
-            %¼«ĞÔÏàÒì,Ò²¾ÍÊÇÄÚºÚÍâ°×    
+            %ææ€§ç›¸å¼‚,ä¹Ÿå°±æ˜¯å†…é»‘å¤–ç™½    
             ellipse_polarity = -1;
-            inliers = inliers(p_dot_temp>0 & p_dot_temp >= 0.923879532511287 );%cos(pi/8) = 0.923879532511287, ¼Ğ½ÇĞ¡ÓÚ22.5¡ã  
+            inliers = inliers(p_dot_temp>0 & p_dot_temp >= 0.923879532511287 );%cos(pi/8) = 0.923879532511287, å¤¹è§’å°äº22.5Â°  
         else
-            %¼«ĞÔÏàÍ¬,Ò²¾ÍÊÇÄÚ°×ÍâºÚ 
+            %ææ€§ç›¸åŒ,ä¹Ÿå°±æ˜¯å†…ç™½å¤–é»‘ 
             ellipse_polarity = 1;
             inliers = inliers(p_dot_temp<0 & (-p_dot_temp) >= 0.923879532511287 );
         end
@@ -254,12 +254,12 @@ function [mylabels,labels, ellipses, validCandidates] = subEllipseDetection( lis
         inliers2 = inliers;
         inliers3 = 0;
         %=================================================================================================================================================================
-        %Á¬Í¨Óò·ÖÎö£¬inliersÎª´æµÄÊÇÔÚ±ßÔµµãµÄĞĞÏÂ±ê
+        %è¿é€šåŸŸåˆ†æï¼Œinliersä¸ºå­˜çš„æ˜¯åœ¨è¾¹ç¼˜ç‚¹çš„è¡Œä¸‹æ ‡
 %         size(points)
 %          size(inliers)
 %         size(points(inliers, :))
 %         size(takeInliers(points(inliers, :), circleCenter, tbins))
-        %Á¬Í¨Óò·ÖÎö£¬µÃµ½ÓĞĞ§µÄÄÚµã£¬ÄÚµãÌá´¿£¬Ò²¾ÍÊÇinliersÖĞ½øÒ»²½²ú³öÓĞĞ§µÄinliers,¸öÊı»á¼õÉÙ£¬´óĞ¡inlier_n2 x 1¡£×¢Òâ×¢Òâ£ºinliersÖĞ´æµÄÊÇÔÚpointsÖĞµÄĞĞÏÂ±ê
+        %è¿é€šåŸŸåˆ†æï¼Œå¾—åˆ°æœ‰æ•ˆçš„å†…ç‚¹ï¼Œå†…ç‚¹æçº¯ï¼Œä¹Ÿå°±æ˜¯inliersä¸­è¿›ä¸€æ­¥äº§å‡ºæœ‰æ•ˆçš„inliers,ä¸ªæ•°ä¼šå‡å°‘ï¼Œå¤§å°inlier_n2 x 1ã€‚æ³¨æ„æ³¨æ„ï¼šinliersä¸­å­˜çš„æ˜¯åœ¨pointsä¸­çš„è¡Œä¸‹æ ‡
         inliers = inliers(takeInliers(points(inliers, :), ellipseCenter, tbins));
         
 %         if( i == 11 && angleCoverage == 165)
@@ -276,7 +276,7 @@ function [mylabels,labels, ellipses, validCandidates] = subEllipseDetection( lis
 
 %         if angleLoop == 2   %mycode
 %         dispimg = zeros(size(E,1),size(E,2),3);
-%         dispimg(:,:,1) = E.*255;%±ßÔµÌáÈ¡³öÀ´µÄÊÇ0-1Í¼Ïñ
+%         dispimg(:,:,1) = E.*255;%è¾¹ç¼˜æå–å‡ºæ¥çš„æ˜¯0-1å›¾åƒ
 %         dispimg(:,:,2) = E.*255;
 %         dispimg(:,:,3) = E.*255;
 %         for i = 1:length(inliers)
@@ -287,26 +287,26 @@ function [mylabels,labels, ellipses, validCandidates] = subEllipseDetection( lis
 %         imshow(uint8(dispimg));
 %         end
 
-        if (new_info == 1)%Èç¹ûÊÇÓÃ×îĞ¡¶ş³Ë·¨ÄâºÏµÄ¶øµÃ³öµÄ½á¹û
-            %ĞÂ¶Ô³ÆÖĞĞÄºÍÀÏ¶Ô³ÆÖĞĞÄµÄ¾àÀëĞ¡ÓÚ4*distance_tolerance, (a,b)µÄ¾àÀëÒ²ÊÇĞ¡ÓÚ4*distance_tolerance,Çã½ÇphiĞ¡ÓÚ0.314159265358979 = 0.1pi = 18¡ã,ÒòÎªĞÂÄâºÏ³öÀ´µÄ²»ÄÜºÍÔ­À´µÄÍÖÔ²ÖĞĞÄ²îºÜ¶à,
+        if (new_info == 1)%å¦‚æœæ˜¯ç”¨æœ€å°äºŒä¹˜æ³•æ‹Ÿåˆçš„è€Œå¾—å‡ºçš„ç»“æœ
+            %æ–°å¯¹ç§°ä¸­å¿ƒå’Œè€å¯¹ç§°ä¸­å¿ƒçš„è·ç¦»å°äº4*distance_tolerance, (a,b)çš„è·ç¦»ä¹Ÿæ˜¯å°äº4*distance_tolerance,å€¾è§’phiå°äº0.314159265358979 = 0.1pi = 18Â°,å› ä¸ºæ–°æ‹Ÿåˆå‡ºæ¥çš„ä¸èƒ½å’ŒåŸæ¥çš„æ¤­åœ†ä¸­å¿ƒå·®å¾ˆå¤š,
             if ( (((new_ellipse(1) - ellipseCenter(1))^2 + (new_ellipse(2) - ellipseCenter(2))^2 ) <= 16 * distance_tolerance_square) ...
                 && (((new_ellipse(3) - ellipseAxes(1))^2 + (new_ellipse(4) - ellipseAxes(2))^2 ) <= 16 * distance_tolerance_square) ...
                 && (abs(new_ellipse(5) - ellipsePhi) <= 0.314159265358979) )
                 ellipse_normals = computePointAngle(new_ellipse,points);
-                %ÖØĞÂ×öÒ»´ÎÕÒÄÚµã£¬Á¬Í¨ĞÔ·ÖÎöµÄÄÚµãÌá´¿,Õâ´ÎµÄĞÂµÄÄÚµã»áÓÃÓÚºóÃæµÄÍêÕû¶È·ÖÎö
+                %é‡æ–°åšä¸€æ¬¡æ‰¾å†…ç‚¹ï¼Œè¿é€šæ€§åˆ†æçš„å†…ç‚¹æçº¯,è¿™æ¬¡çš„æ–°çš„å†…ç‚¹ä¼šç”¨äºåé¢çš„å®Œæ•´åº¦åˆ†æ
                 %newinliers = find( (labels == 0) & (dRosin_square(new_ellipse,points) <= distance_tolerance_square) ...
-                %    & ((dot(normals, ellipse_normals, 2)*(-ellipse_polarity)) >= 0.923879532511287) ); % (2*distance_tolerance)^2, cos(pi/8) = 0.923879532511287, ¼Ğ½ÇĞ¡ÓÚ22.5¡ã
-                %¼ÓËÙ¼ÆËã£¬Ö»Ìô³öÍÖÔ²Íâ½Ó¾ØĞÎÄÚµÄ±ßÔµµã(ÍÖÔ²ÖĞµÄ³¤Öáa>b),i_dx´æ´¢µÄÊÇÏà¶ÔÔÚpointsÖĞµÄË÷Òı
+                %    & ((dot(normals, ellipse_normals, 2)*(-ellipse_polarity)) >= 0.923879532511287) ); % (2*distance_tolerance)^2, cos(pi/8) = 0.923879532511287, å¤¹è§’å°äº22.5Â°
+                %åŠ é€Ÿè®¡ç®—ï¼ŒåªæŒ‘å‡ºæ¤­åœ†å¤–æ¥çŸ©å½¢å†…çš„è¾¹ç¼˜ç‚¹(æ¤­åœ†ä¸­çš„é•¿è½´a>b),i_dxå­˜å‚¨çš„æ˜¯ç›¸å¯¹åœ¨pointsä¸­çš„ç´¢å¼•
                 i_dx = find( points(:,1) >= (new_ellipse(1)-new_ellipse(3)-distance_tolerance) & points(:,1) <= (new_ellipse(1)+new_ellipse(3)+distance_tolerance) & points(:,2) >= (new_ellipse(2)-new_ellipse(3)-distance_tolerance) & points(:,2) <= (new_ellipse(2)+new_ellipse(3)+distance_tolerance));
-                ellipse_normals = computePointAngle(new_ellipse,points(i_dx,:));%ellipse_normals³¤¶ÈÓëi_dx³¤¶ÈÒ»ÖÂ
+                ellipse_normals = computePointAngle(new_ellipse,points(i_dx,:));%ellipse_normalsé•¿åº¦ä¸i_dxé•¿åº¦ä¸€è‡´
                 newinliers = i_dx(labels(i_dx) == 0 & (dRosin_square(new_ellipse,points(i_dx,:)) <= distance_tolerance_square & ((dot(normals(i_dx,:), ellipse_normals, 2)*(-ellipse_polarity)) >= 0.923879532511287) ) );
                 newinliers = newinliers(takeInliers(points(newinliers, :), new_ellipse(1:2), tbins));
                 if (length(newinliers) >= length(inliers))
                     %a = newa; b = newb; r = newr; cnd = newcnd;
                     inliers = newinliers;
-                    inliers3 = newinliers;%my code£¬just test
+                    inliers3 = newinliers;%my codeï¼Œjust test
                     %======================================================================
-                    %¶ş´ÎÄâºÏ
+                    %äºŒæ¬¡æ‹Ÿåˆ
                     %[newa, newb, newr, newcnd] = fitCircle(points(inliers, :));
                     [new_new_ellipse,new_new_info] = fitEllipse(points(inliers,1),points(inliers,2));
                     if(new_new_info == 1)
@@ -319,64 +319,64 @@ function [mylabels,labels, ellipses, validCandidates] = subEllipseDetection( lis
             new_ellipse = list(i,:);  %candidates
         end
         
-        %ÄÚµãÊıÁ¿´óÓÚÔ²ÖÜÉÏµÄÒ»¶¨±ÈÀı£¬TminÎª±ÈÀıãĞÖµ
+        %å†…ç‚¹æ•°é‡å¤§äºåœ†å‘¨ä¸Šçš„ä¸€å®šæ¯”ä¾‹ï¼ŒTminä¸ºæ¯”ä¾‹é˜ˆå€¼
 %         length(inliers)
 %         floor( pi * (1.5*sum(new_ellipse(3:4))-sqrt(new_ellipse(3)*new_ellipse(4))) * Tmin )
         if (length(inliers) >= floor( pi * (1.5*sum(new_ellipse(3:4))-sqrt(new_ellipse(3)*new_ellipse(4))) * Tmin ))
             convergence(i, :) = new_ellipse;
-            %ÓëÖ®Ç°µÄÔ²ĞÄºÍ°ë¾¶²ÎÊı¼¸ºõÒ»ÖÂ£¬ÖØ¸´ÁË£¬Òò´Ë°ÑÕâ¸öÔ²ÌÔÌ­(ÅÅÔÚ×î¿ªÍ·µÄºÍËüÖØ¸´µÄÔ²²»Ò»¶¨»á±»ÌÔÌ­)
+            %ä¸ä¹‹å‰çš„åœ†å¿ƒå’ŒåŠå¾„å‚æ•°å‡ ä¹ä¸€è‡´ï¼Œé‡å¤äº†ï¼Œå› æ­¤æŠŠè¿™ä¸ªåœ†æ·˜æ±°(æ’åœ¨æœ€å¼€å¤´çš„å’Œå®ƒé‡å¤çš„åœ†ä¸ä¸€å®šä¼šè¢«æ·˜æ±°)
             if (any( (sqrt(sum((convergence(1 : i - 1, 1 : 2) - repmat(new_ellipse(1:2), i - 1, 1)) .^ 2, 2)) <= distance_tolerance) ...
                 & (sqrt(sum((convergence(1 : i - 1, 3 : 4) - repmat(new_ellipse(3:4), i - 1, 1)) .^ 2, 2)) <= distance_tolerance) ...
                 & (abs(convergence(1 : i - 1, 5) - repmat(new_ellipse(5), i - 1, 1)) <= 0.314159265358979) ))
                 validCandidates(i) = false;
             end
-            %Èç¹ûÄÚµãÔÚÔ²ÖÜÉÏÂú×ãangleCoverageµÄÍêÕû¶È
+            %å¦‚æœå†…ç‚¹åœ¨åœ†å‘¨ä¸Šæ»¡è¶³angleCoverageçš„å®Œæ•´åº¦
             %completeOrNot =  isComplete(points(inliers, :), new_ellipse(1:2), tbins, angleCoverage);
             completeOrNot = calcuCompleteness(points(inliers,:),new_ellipse(1:2),tbins) >= angleCoverage;
             if (new_info == 1 && new_ellipse(3) < maxSemiMajor && new_ellipse(4) < maxSemiMinor && completeOrNot )
-                %ÇÒÂú×ãºÍÆäËüÔ²²ÎÊı´óÓÚdistance_tolerance£¬Ò²¾ÍÊÇÖ¸ºÍÆäËüÔ²ÊÇ²»Í¬µÄ
+                %ä¸”æ»¡è¶³å’Œå…¶å®ƒåœ†å‚æ•°å¤§äºdistance_toleranceï¼Œä¹Ÿå°±æ˜¯æŒ‡å’Œå…¶å®ƒåœ†æ˜¯ä¸åŒçš„
                 if (all( (sqrt(sum((ellipses(:, 1 : 2) - repmat(new_ellipse(1:2), size(ellipses, 1), 1)) .^ 2, 2)) > distance_tolerance) ...
                    | (sqrt(sum((ellipses(:, 3 : 4) - repmat(new_ellipse(3:4), size(ellipses, 1), 1)) .^ 2, 2)) > distance_tolerance) ...
-                   | (abs(ellipses(:, 5) - repmat(new_ellipse(5), size(ellipses, 1), 1)) >= 0.314159265358979 ) )) %0.1 * pi = 0.314159265358979 = 18¡ã
+                   | (abs(ellipses(:, 5) - repmat(new_ellipse(5), size(ellipses, 1), 1)) >= 0.314159265358979 ) )) %0.1 * pi = 0.314159265358979 = 18Â°
                     %size(inliers)
-                    %line_normal = pca(points(inliers, :));%µÃµ½2x2µÄpca±ä»»¾ØÕó£¬Òò´ËµÚ¶şÁĞ±ãÊÇÓÉÄÚµãÍ³¼Æ³öµÄÌİ¶È
-                    %line_normal = line_normal(:, 2)';%È¡³öµÚ¶şÁĞ²¢ÇÒ±äÎª1 x 2 µÄĞĞÏòÁ¿
-                    %line_point = mean(points(inliers, :));%ÄÚµãÈ¡Æ½¾ù
-                    %·ÀÖ¹Êı¾İµã¹ıÓÚ¼¯ÖĞ
+                    %line_normal = pca(points(inliers, :));%å¾—åˆ°2x2çš„pcaå˜æ¢çŸ©é˜µï¼Œå› æ­¤ç¬¬äºŒåˆ—ä¾¿æ˜¯ç”±å†…ç‚¹ç»Ÿè®¡å‡ºçš„æ¢¯åº¦
+                    %line_normal = line_normal(:, 2)';%å–å‡ºç¬¬äºŒåˆ—å¹¶ä¸”å˜ä¸º1 x 2 çš„è¡Œå‘é‡
+                    %line_point = mean(points(inliers, :));%å†…ç‚¹å–å¹³å‡
+                    %é˜²æ­¢æ•°æ®ç‚¹è¿‡äºé›†ä¸­
                     %if (sum(abs(dot(points(inliers, :) - repmat(line_point, length(inliers), 1), repmat(line_normal, length(inliers), 1), 2)) <= distance_tolerance & radtodeg(real(acos(abs(dot(normals(inliers, :), repmat(line_normal, length(inliers), 1), 2))))) <= normal_tolerance) / length(inliers) < 0.8)
-                         labels(inliers) = size(ellipses, 1) + 1;%±ê¼Ç£¬ÕâĞ©ÄÚµãÒÑ¾­ÓÃ¹ıÁË£¬¹¹³ÉÁËĞÂ¼ì²âµ½Ô²ÖÜ
+                         labels(inliers) = size(ellipses, 1) + 1;%æ ‡è®°ï¼Œè¿™äº›å†…ç‚¹å·²ç»ç”¨è¿‡äº†ï¼Œæ„æˆäº†æ–°æ£€æµ‹åˆ°åœ†å‘¨
                          %==================================================================
                          if(all(inliers3) == 1)
-                         mylabels(inliers3) = size(ellipses,1) + 1; %ÏÔÊ¾ÄâºÏ³öÔ²Ê±ËùÓÃµÄÄÚµã  SSS
+                         mylabels(inliers3) = size(ellipses,1) + 1; %æ˜¾ç¤ºæ‹Ÿåˆå‡ºåœ†æ—¶æ‰€ç”¨çš„å†…ç‚¹  SSS
                          end
                          %==================================================================
-                        ellipses = [ellipses; new_ellipse];%½«¸ÃÔ²²ÎÊı¼ÓÈë½øÈ¥
-                        validCandidates(i) = false;%µÚi¸öºòÑ¡Ô²¼ì²âÍê±Ï
+                        ellipses = [ellipses; new_ellipse];%å°†è¯¥åœ†å‚æ•°åŠ å…¥è¿›å»
+                        validCandidates(i) = false;%ç¬¬iä¸ªå€™é€‰åœ†æ£€æµ‹å®Œæ¯•
                         %disp([angleCoverage,i]);
                         %drawEllipses(new_ellipse',E);
                     %end
                 end
             end
         else
-            validCandidates(i) = false;%ÆäËüÇé¿ö£¬ÌÔÌ­¸ÃºòÑ¡Ô²
+            validCandidates(i) = false;%å…¶å®ƒæƒ…å†µï¼Œæ·˜æ±°è¯¥å€™é€‰åœ†
         end
         
     end %for
 end%fun
 %% ================================================================================================================================
-%º¯Êı4
-%Ô²µÄ×îĞ¡¶ş³Ë·¨ÄâºÏ(´Ë´¦¿ÉÒÔ¸ÄÓÃ¿ìËÙÔ²ÄâºÏ·½·¨)
-%ÊäÈë£º
-%points: ÁªÍ¨ĞÔ·ÖÎöºóµÄÌá´¿ºóµÄÄÚµã£¬Éè´óĞ¡Îª fpn x 2,¸ñÊ½(xi,yi)
-%Êä³ö£º
-%a   £ºÄâºÏºóµÄÔ²ĞÄºá×ø±êx
-%b   £ºÄâºÏºóµÄÔ²ĞÄ×İ×ø±êy
-%c   £ºÄâºÏºóµÄÔ²ĞÄ°ë¾¶r
-%cnd £º1±íÊ¾Êı¾İ´úÈë·½³ÌºóÊÇÆæÒìµÄ£¬Ö±½ÓÓÃÆ½¾ùÖµ¹À¼Æ£»0±íÊ¾Êı¾İÊÇÓÃ×îĞ¡¶ş³Ë·¨ÄâºÏµÄ
+%å‡½æ•°4
+%åœ†çš„æœ€å°äºŒä¹˜æ³•æ‹Ÿåˆ(æ­¤å¤„å¯ä»¥æ”¹ç”¨å¿«é€Ÿåœ†æ‹Ÿåˆæ–¹æ³•)
+%è¾“å…¥ï¼š
+%points: è”é€šæ€§åˆ†æåçš„æçº¯åçš„å†…ç‚¹ï¼Œè®¾å¤§å°ä¸º fpn x 2,æ ¼å¼(xi,yi)
+%è¾“å‡ºï¼š
+%a   ï¼šæ‹Ÿåˆåçš„åœ†å¿ƒæ¨ªåæ ‡x
+%b   ï¼šæ‹Ÿåˆåçš„åœ†å¿ƒçºµåæ ‡y
+%c   ï¼šæ‹Ÿåˆåçš„åœ†å¿ƒåŠå¾„r
+%cnd ï¼š1è¡¨ç¤ºæ•°æ®ä»£å…¥æ–¹ç¨‹åæ˜¯å¥‡å¼‚çš„ï¼Œç›´æ¥ç”¨å¹³å‡å€¼ä¼°è®¡ï¼›0è¡¨ç¤ºæ•°æ®æ˜¯ç”¨æœ€å°äºŒä¹˜æ³•æ‹Ÿåˆçš„
 function [a, b, r, cnd] = fitCircle(points)
 %{
     A = [sum(points(:, 1)), sum(points(:, 2)), size(points, 1); sum(points(:, 1) .* points(:, 2)), sum(points(:, 2) .* points(:, 2)), sum(points(:, 2)); sum(points(:, 1) .* points(:, 1)), sum(points(:, 1) .* points(:, 2)), sum(points(:, 1))];
-    %ÓÃ×îĞ¡¶ş³Ë·¨Ê±£¬A'AÕıÔò¾ØÕóÈç¹û½Ó½ü0£¬ÔòÒâÎ¶×Å·½³Ì×éÏßĞÔ£¬ÇóÆ½¾ùÖµ¼´¿É
+    %ç”¨æœ€å°äºŒä¹˜æ³•æ—¶ï¼ŒA'Aæ­£åˆ™çŸ©é˜µå¦‚æœæ¥è¿‘0ï¼Œåˆ™æ„å‘³ç€æ–¹ç¨‹ç»„çº¿æ€§ï¼Œæ±‚å¹³å‡å€¼å³å¯
     if (abs(det(A)) < 1e-9)
         cnd = 1;
         a = mean(points(:, 1));
@@ -392,7 +392,7 @@ function [a, b, r, cnd] = fitCircle(points)
     r = sqrt((t(1) .^ 2 + t(2) .^ 2) / 4 - t(3));
  %}
     A = [sum(points(:, 1) .* points(:, 1)),sum(points(:, 1) .* points(:, 2)),sum(points(:, 1)); sum(points(:, 1) .* points(:, 2)),sum(points(:, 2) .* points(:, 2)),sum(points(:, 2)); sum(points(:, 1)),sum(points(:, 2)),size(points, 1)]; 
-    %ÓÃ×îĞ¡¶ş³Ë·¨Ê±£¬A'AÕıÔò¾ØÕóÈç¹û½Ó½ü0£¬ÔòÒâÎ¶×Å·½³Ì×éÏßĞÔ£¬ÇóÆ½¾ùÖµ¼´¿É
+    %ç”¨æœ€å°äºŒä¹˜æ³•æ—¶ï¼ŒA'Aæ­£åˆ™çŸ©é˜µå¦‚æœæ¥è¿‘0ï¼Œåˆ™æ„å‘³ç€æ–¹ç¨‹ç»„çº¿æ€§ï¼Œæ±‚å¹³å‡å€¼å³å¯
     if (abs(det(A)) < 1e-9)
         cnd = 1;
         a = mean(points(:, 1));
@@ -408,46 +408,46 @@ function [a, b, r, cnd] = fitCircle(points)
     r = sqrt((t(1) .^ 2 + t(2) .^ 2) / 4 - t(3));
 end
 %% ================================================================================================================================
-%º¯Êı5
-%ÊäÈë
-%x     : Á¬Í¨ĞÔ·ÖÎöºó£¬Âú×ãÊıÁ¿2piRTµÄÌá´¿ºóµÄÄÚµã(x,y)£¬½«²ÎÓëµ½ÍêÕû¶È·ÖÎö»·½Ú.num x 2
-%center: Ô²ĞÄ(x,y)  1 x 2
-%tbins £º·ÖÇø×ÜÊı
-%angleCoverage: ĞèÒª´ïµ½µÄÔ²ÍêÕû¶È
-%Êä³ö
-%result£º true or false£¬±íÊ¾¸ÃÔ²ÍêÕûÓë²»ÍêÕû
+%å‡½æ•°5
+%è¾“å…¥
+%x     : è¿é€šæ€§åˆ†æåï¼Œæ»¡è¶³æ•°é‡2piRTçš„æçº¯åçš„å†…ç‚¹(x,y)ï¼Œå°†å‚ä¸åˆ°å®Œæ•´åº¦åˆ†æç¯èŠ‚.num x 2
+%center: åœ†å¿ƒ(x,y)  1 x 2
+%tbins ï¼šåˆ†åŒºæ€»æ•°
+%angleCoverage: éœ€è¦è¾¾åˆ°çš„åœ†å®Œæ•´åº¦
+%è¾“å‡º
+%resultï¼š true or falseï¼Œè¡¨ç¤ºè¯¥åœ†å®Œæ•´ä¸ä¸å®Œæ•´
 %longest_inliers:
 function [result, longest_inliers] = isComplete(x, center, tbins, angleCoverage)
-    [theta, ~] = cart2pol(x(:, 1) - center(1), x(:, 2) - center(2));%thetaÎª(-pi,pi)µÄ½Ç¶È£¬num x 1
+    [theta, ~] = cart2pol(x(:, 1) - center(1), x(:, 2) - center(2));%thetaä¸º(-pi,pi)çš„è§’åº¦ï¼Œnum x 1
     tmin = -pi; tmax = pi;
-    tt = round((theta - tmin) / (tmax - tmin) * tbins + 0.5);%thetaµÄµÚi¸öÔªËØÂäÔÚµÚj¸öbin£¬ÔòttµÚiĞĞ±ê¼ÇÎªj£¬´óĞ¡num x 1
+    tt = round((theta - tmin) / (tmax - tmin) * tbins + 0.5);%thetaçš„ç¬¬iä¸ªå…ƒç´ è½åœ¨ç¬¬jä¸ªbinï¼Œåˆ™ttç¬¬iè¡Œæ ‡è®°ä¸ºjï¼Œå¤§å°num x 1
     tt(tt < 1) = 1; tt(tt > tbins) = tbins;
     h = histc(tt, 1 : tbins);
     longest_run = 0;
     start_idx = 1;
     end_idx = 1;
     while (start_idx <= tbins)
-        if (h(start_idx) > 0)%ÕÒµ½binÖĞvoteµÚÒ»¸ö´óÓÚ0µÄ
+        if (h(start_idx) > 0)%æ‰¾åˆ°binä¸­voteç¬¬ä¸€ä¸ªå¤§äº0çš„
             end_idx = start_idx;
-            while (start_idx <= tbins && h(start_idx) > 0)%Ö±µ½binµÚÒ»¸öĞ¡ÓÚ0µÄ
+            while (start_idx <= tbins && h(start_idx) > 0)%ç›´åˆ°binç¬¬ä¸€ä¸ªå°äº0çš„
                 start_idx = start_idx + 1;
             end
-            inliers = [end_idx, start_idx - 1];%´ËÇø¼äÎªÁ¬Í¨ÇøÓò
-            inliers = find(tt >= inliers(1) & tt <= inliers(2));%ÔÚttÖĞÕÒµ½ÂäÔÚ´ËÇø¼äµÄÄÚµãµÄË÷Òı
-            run = max(theta(inliers)) - min(theta(inliers));%½Ç¶È²î
-            if (longest_run < run)%´Ë¾ÙÊÇÎªÁËÕÒµ½×î´óµÄÍêÕûµÄÇÒÁ¬Í¨µÄ¿ç¶È
+            inliers = [end_idx, start_idx - 1];%æ­¤åŒºé—´ä¸ºè¿é€šåŒºåŸŸ
+            inliers = find(tt >= inliers(1) & tt <= inliers(2));%åœ¨ttä¸­æ‰¾åˆ°è½åœ¨æ­¤åŒºé—´çš„å†…ç‚¹çš„ç´¢å¼•
+            run = max(theta(inliers)) - min(theta(inliers));%è§’åº¦å·®
+            if (longest_run < run)%æ­¤ä¸¾æ˜¯ä¸ºäº†æ‰¾åˆ°æœ€å¤§çš„å®Œæ•´çš„ä¸”è¿é€šçš„è·¨åº¦
                 longest_run = run;
                 longest_inliers = inliers;
             end
         end
         start_idx = start_idx + 1;
     end
-    if (h(1) > 0 && h(tbins) > 0)%Èç¹ûµÚÒ»¸öbinºÍ×îºóÒ»¸öbin¶¼´óÓÚ0£¬ÓĞ¿ÉÄÜ×î´óÁ¬Í¨ÇøÓòÊÇÍ·Î²ÏàÁ¬µÄÕâÖÖÇé¿ö
+    if (h(1) > 0 && h(tbins) > 0)%å¦‚æœç¬¬ä¸€ä¸ªbinå’Œæœ€åä¸€ä¸ªbinéƒ½å¤§äº0ï¼Œæœ‰å¯èƒ½æœ€å¤§è¿é€šåŒºåŸŸæ˜¯å¤´å°¾ç›¸è¿çš„è¿™ç§æƒ…å†µ
         start_idx = 1;
-        while (start_idx < tbins && h(start_idx) > 0)%ÕÒµ½binÖĞvoteµÚÒ»¸ö´óÓÚ0µÄ
+        while (start_idx < tbins && h(start_idx) > 0)%æ‰¾åˆ°binä¸­voteç¬¬ä¸€ä¸ªå¤§äº0çš„
             start_idx = start_idx + 1;
         end
-        end_idx = tbins;%end_idxÖ±½Ó´Ó×îÎ²²¿¿ªÊ¼Íù»ØÕÒ
+        end_idx = tbins;%end_idxç›´æ¥ä»æœ€å°¾éƒ¨å¼€å§‹å¾€å›æ‰¾
         while (end_idx > 1 && end_idx > start_idx && h(end_idx) > 0)
             end_idx = end_idx - 1;
         end
@@ -459,46 +459,46 @@ function [result, longest_inliers] = isComplete(x, center, tbins, angleCoverage)
             longest_inliers = inliers;
         end
     end
-    %×î´óµÄÁ¬Í¨µÄ¿ç¶È´óÓÚÁËangleCoverage£¬»òÕßËäÈ»×î´óÁ¬Í¨¿ç¶ÈĞ¡ÓÚ£¬µ«ÍêÕû¶È×ã¹»ÁË
+    %æœ€å¤§çš„è¿é€šçš„è·¨åº¦å¤§äºäº†angleCoverageï¼Œæˆ–è€…è™½ç„¶æœ€å¤§è¿é€šè·¨åº¦å°äºï¼Œä½†å®Œæ•´åº¦è¶³å¤Ÿäº†
     longest_run_deg = radtodeg(longest_run);
     h_greatthanzero_num = sum(h>0);
     result =  longest_run_deg >= angleCoverage || h_greatthanzero_num * (360 / tbins) >= min([360, 1.2*angleCoverage]);  %1.2 * angleCoverage
 end
 function [completeness] = calcuCompleteness(x, center, tbins)
-    [theta, ~] = cart2pol(x(:, 1) - center(1), x(:, 2) - center(2));%thetaÎª(-pi,pi)µÄ½Ç¶È£¬num x 1
+    [theta, ~] = cart2pol(x(:, 1) - center(1), x(:, 2) - center(2));%thetaä¸º(-pi,pi)çš„è§’åº¦ï¼Œnum x 1
     tmin = -pi; tmax = pi;
-    tt = round((theta - tmin) / (tmax - tmin) * tbins + 0.5);%thetaµÄµÚi¸öÔªËØÂäÔÚµÚj¸öbin£¬ÔòttµÚiĞĞ±ê¼ÇÎªj£¬´óĞ¡num x 1
+    tt = round((theta - tmin) / (tmax - tmin) * tbins + 0.5);%thetaçš„ç¬¬iä¸ªå…ƒç´ è½åœ¨ç¬¬jä¸ªbinï¼Œåˆ™ttç¬¬iè¡Œæ ‡è®°ä¸ºjï¼Œå¤§å°num x 1
     tt(tt < 1) = 1; tt(tt > tbins) = tbins;
     h = histc(tt, 1 : tbins);
     h_greatthanzero_num = sum(h>0);
     completeness = h_greatthanzero_num*(360 / tbins);
 end
 %% ================================================================================================================================
-%º¯Êı6
-%Á¬Í¨ĞÔ·ÖÎö£¬¶ÔÔ²ÖÜÉÏµÄÄÚµã½øĞĞÌá´¿
-%ÊäÈë
-%x£ºÍÖÔ²ÖÜÉÏµÄÄÚµã(x,y),ÉèÎªinlier_n x 2 
-%center£ºÒ»¸öÍÖÔ²µÄÖĞĞÄ(x,y) 1x2
-%tbins: ·ÖÇø = min( 180 , pi*(1.5*(a+b)-sqrt(a*b)) ) 
-%Êä³ö
-%idx£ºÎªÓëxÒ»Ñù³¤µÄ£¬inlier_n x 1µÄlogicalÏòÁ¿£¬·µ»ØÓĞĞ§µÄÂú×ãÒ»¶¨Á¬Í¨³¤¶ÈµÄÄÚµã£¬¶ÔÓ¦Î»ÖÃÓĞĞ§ÔòÎª1£¬·ñÔòÎª0
+%å‡½æ•°6
+%è¿é€šæ€§åˆ†æï¼Œå¯¹åœ†å‘¨ä¸Šçš„å†…ç‚¹è¿›è¡Œæçº¯
+%è¾“å…¥
+%xï¼šæ¤­åœ†å‘¨ä¸Šçš„å†…ç‚¹(x,y),è®¾ä¸ºinlier_n x 2 
+%centerï¼šä¸€ä¸ªæ¤­åœ†çš„ä¸­å¿ƒ(x,y) 1x2
+%tbins: åˆ†åŒº = min( 180 , pi*(1.5*(a+b)-sqrt(a*b)) ) 
+%è¾“å‡º
+%idxï¼šä¸ºä¸xä¸€æ ·é•¿çš„ï¼Œinlier_n x 1çš„logicalå‘é‡ï¼Œè¿”å›æœ‰æ•ˆçš„æ»¡è¶³ä¸€å®šè¿é€šé•¿åº¦çš„å†…ç‚¹ï¼Œå¯¹åº”ä½ç½®æœ‰æ•ˆåˆ™ä¸º1ï¼Œå¦åˆ™ä¸º0
 function idx = takeInliers(x, center, tbins)
-   [theta, ~] = cart2pol(x(:, 1) - center(1), x(:, 2) - center(2));%µÃµ½[-pi,pi]µÄ·½Î»½Ç£¬µÈ¼ÛÓÚ theta = atan2(x(:, 2) - center(2) , x(:, 1) - center(1)); 
+   [theta, ~] = cart2pol(x(:, 1) - center(1), x(:, 2) - center(2));%å¾—åˆ°[-pi,pi]çš„æ–¹ä½è§’ï¼Œç­‰ä»·äº theta = atan2(x(:, 2) - center(2) , x(:, 1) - center(1)); 
     tmin = -pi; tmax = pi;
-    tt = round((theta - tmin) / (tmax - tmin) * tbins + 0.5);%½«ÄÚµã·ÖÇøµ½[1 tbins]
+    tt = round((theta - tmin) / (tmax - tmin) * tbins + 0.5);%å°†å†…ç‚¹åˆ†åŒºåˆ°[1 tbins]
     tt(tt < 1) = 1; tt(tt > tbins) = tbins;
-    h = histc(tt, 1 : tbins);%hÎªÖ±·½Í¼[1 tbins]µÄÍ³¼Æ½á¹û
+    h = histc(tt, 1 : tbins);%hä¸ºç›´æ–¹å›¾[1 tbins]çš„ç»Ÿè®¡ç»“æœ
     mark = zeros(tbins, 1);
     compSize = zeros(tbins, 1);
     nComps = 0;
     queue = zeros(tbins, 1);
     du = [-1, 1];
     for i = 1 : tbins
-        if (h(i) > 0 && mark(i) == 0)%Èç¹ûÂäÔÚµÚi¸ö·ÖÇøÄÚµÄÖµ´óÓÚ0£¬ÇÒmark(i)Îª0
+        if (h(i) > 0 && mark(i) == 0)%å¦‚æœè½åœ¨ç¬¬iä¸ªåˆ†åŒºå†…çš„å€¼å¤§äº0ï¼Œä¸”mark(i)ä¸º0
             nComps = nComps + 1;
-            mark(i) = nComps;%±ê¼ÇµÚnComps¸öÁ¬Í¨ÇøÓò
+            mark(i) = nComps;%æ ‡è®°ç¬¬nCompsä¸ªè¿é€šåŒºåŸŸ
             front = 1; rear = 1;
-            queue(front) = i;%½«¸Ã·ÖÇø¼ÓÈë¶ÓÁĞ£¬²¢ÒÔ´Ë¿ªÊ¼ÈÎÎñ
+            queue(front) = i;%å°†è¯¥åˆ†åŒºåŠ å…¥é˜Ÿåˆ—ï¼Œå¹¶ä»¥æ­¤å¼€å§‹ä»»åŠ¡
             while (front <= rear)
                 u = queue(front);
                 front = front + 1;
@@ -513,18 +513,18 @@ function idx = takeInliers(x, center, tbins)
                     if (mark(v) == 0 && h(v) > 0)
                         rear = rear + 1;
                         queue(rear) = v;
-                        mark(v) = nComps;%±ê¼ÇµÚnComps¸öÁ¬Í¨ÇøÓò
+                        mark(v) = nComps;%æ ‡è®°ç¬¬nCompsä¸ªè¿é€šåŒºåŸŸ
                     end
                 end
             end
-            compSize(nComps) = sum(ismember(tt, find(mark == nComps)));%µÃµ½¹¹³ÉÁ¬Í¨ÓòÎªnCompsµÄÄÚµãÊıÁ¿
+            compSize(nComps) = sum(ismember(tt, find(mark == nComps)));%å¾—åˆ°æ„æˆè¿é€šåŸŸä¸ºnCompsçš„å†…ç‚¹æ•°é‡
         end
     end
     compSize(nComps + 1 : end) = [];
     maxCompSize = max(compSize);
-    validComps = find(compSize >= maxCompSize * 0.1 & compSize > 10);%´óÓÚµÈÓÚ×î´óÁ¬Í¨³¤¶ÈµÄ0.1±¶µÄÁ¬Í¨ÇøÓòÊÇÓĞĞ§µÄ
-    validBins = find(ismember(mark, validComps));%ÓĞĞ§µÄ·ÖÇø
-    idx = ismember(tt, validBins);%ÓĞĞ§µÄÄÚµã
+    validComps = find(compSize >= maxCompSize * 0.1 & compSize > 10);%å¤§äºç­‰äºæœ€å¤§è¿é€šé•¿åº¦çš„0.1å€çš„è¿é€šåŒºåŸŸæ˜¯æœ‰æ•ˆçš„
+    validBins = find(ismember(mark, validComps));%æœ‰æ•ˆçš„åˆ†åŒº
+    idx = ismember(tt, validBins);%æœ‰æ•ˆçš„å†…ç‚¹
 end
 %% compute the points' normals belong to an ellipse, the normals have been already normalized. 
 %param: [x0 y0 a b phi].
@@ -554,10 +554,10 @@ angles = atan2(C*points(:,2)+B/2*points(:,1)+E/2, A*points(:,1)+B/2*points(:,2)+
 ellipse_normals = [cos(angles),sin(angles)];
 end
 
-%% paramÎª[x0 y0 a b Phi],1 x 5 »òÕß 5 x 1
-%pointsÎª´ı¼ÆËãrosin distanceµÄµã£¬Ã¿Ò»ĞĞÎª(xi,yi),sizeÊÇ n x 2
-%dminÎªÊä³ö¹À¼Æ¾àÀëµÄÆ½·½.
-%µ÷ÓÃ×¢Òâ£¬µ±a = bÊ±£¬Ò²¾ÍÊÇÍÖÔ²ÍË»¯³ÉÔ²Ê±£¬dmin»á±ä³ÉÎŞÇî´óNAN£¬²»ÄÜÓÃ´Ëº¯Êı
+%% paramä¸º[x0 y0 a b Phi],1 x 5 æˆ–è€… 5 x 1
+%pointsä¸ºå¾…è®¡ç®—rosin distanceçš„ç‚¹ï¼Œæ¯ä¸€è¡Œä¸º(xi,yi),sizeæ˜¯ n x 2
+%dminä¸ºè¾“å‡ºä¼°è®¡è·ç¦»çš„å¹³æ–¹.
+%è°ƒç”¨æ³¨æ„ï¼Œå½“a = bæ—¶ï¼Œä¹Ÿå°±æ˜¯æ¤­åœ†é€€åŒ–æˆåœ†æ—¶ï¼Œdminä¼šå˜æˆæ— ç©·å¤§NANï¼Œä¸èƒ½ç”¨æ­¤å‡½æ•°
 function [dmin]= dRosin_square(param,points)
 ae2 = param(3).*param(3);
 be2 = param(4).*param(4);
@@ -580,8 +580,8 @@ d(:,1) = (xp-xi).^2+(yp-yi).^2;
 d(:,2) = (xp-xi).^2+(yp+yi).^2;
 d(:,3) = (xp+xi).^2+(yp-yi).^2;
 d(:,4) = (xp+xi).^2+(yp+yi).^2;
-dmin = min(d,[],2); %·µ»Ø¾àÀëµÄÆ½·½
-%[dmin, ii] = min(d,[],2); %·µ»Ø¾àÀëµÄÆ½·½
+dmin = min(d,[],2); %è¿”å›è·ç¦»çš„å¹³æ–¹
+%[dmin, ii] = min(d,[],2); %è¿”å›è·ç¦»çš„å¹³æ–¹
 % for jj = 1:length(dmin)
 %     if(ii(jj) == 1)
 %         xi(jj) = xi(jj);

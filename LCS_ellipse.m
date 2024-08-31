@@ -15,38 +15,38 @@ function []  = LCS_ellipse()
 close all;
 
 %image path
-filename = 'D:\Graduate Design\Ellipse Detection\MyEllipse - github\pics\666.jpg';
+filename = '/home/zihan/dataset/Media/codes/elli-compare/Lu-Elli/pics/666.jpg';
 
-% parameters
+
+% 参数设置
 Tac = 165;
 Tr = 0.6;
 specified_polarity = 0;
 
-%%
-% read image 
+% 读取图像
 disp('------read image------');
 I = imread(filename);
 
-
-%% detecting ellipses from real-world images
+% 检测椭圆
 [ellipses, ~, posi] = ellipseDetectionByArcSupportLSs(I, Tac, Tr, specified_polarity);
 
-disp('draw detected ellipses');
-drawEllipses(ellipses',I);
-% display
+% 保存检测结果到文件
+save('ellipses_result.mat', 'ellipses', 'posi');
+
+% 将检测到的椭圆绘制到图像上并保存
+fig = figure('Visible', 'off');
+imshow(I);
+hold on;
+drawEllipses(ellipses', I);
+saveas(fig, 'detected_ellipses.png');
+close(fig);
+
+% 显示检测到的椭圆数量
 ellipses(:,5) = ellipses(:,5)./pi*180;
-ellipses
-disp(['The total number of detected ellipses��',num2str(size(ellipses,1))]);
+disp(['The total number of detected ellipses: ', num2str(size(ellipses,1))]);
 
-%% draw ellipse centers
-%hold on;
-%candidates_xy = round(posi+0.5);%candidates' centers (col_i, row_i)
-%plot(candidates_xy(:,1),candidates_xy(:,2),'.');%draw candidates' centers.
-
-%% write the result image
-%set(gcf,'position',[0 0 size(I,2) size(I,1)]);
-%saveas(gcf, 'D:\Graduate Design\Ellipse Detection\MyEllipse - github\pics\666_all.jpg', 'jpg');
+% 可选：将椭圆参数写入文本文件
+writematrix(ellipses, 'ellipses_parameters.txt', 'Delimiter', 'tab');
 end
-
 
 

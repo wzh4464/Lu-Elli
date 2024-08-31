@@ -82,3 +82,17 @@
 ## 7. Our Previous Work  
 We also proposed a [circle detection method](https://github.com/AlanLuSun/Circle-detection) in our previous work which could detect circles from image efficiently, precisely and robustly.
 
+
+## 8. Linux Version
+
+```shell
+export LD_LIBRARY_PATH=/home/zihan/opencv_build/opencv-2.4.13.7/lib:$LD_LIBRARY_PATH
+
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6
+```
+
+```matlab
+mex -v CXXFLAGS='\$CXXFLAGS -fPIC' generateEllipseCandidates.cpp -I'/home/zihan/opencv_build/opencv-2.4.13.7/include' -L'/home/zihan/opencv_build/opencv-2.4.13.7/lib' -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_nonfree -llapack -lblas;
+
+LCS_ellipse
+```
